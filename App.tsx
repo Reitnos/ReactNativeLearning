@@ -1,58 +1,52 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { ImageBackground, StyleSheet, Text, View,Button } from 'react-native';
-
-export default function App() {
-  const [name,setName] = useState('SHAUN');
-  const [person,setPerson] = useState({name: "mario",age:40}) // we can also pass objects
-
-  const clickHandler = () => {
-    setName("chun-li");
-    setPerson({name:"luigi", age: 45});
-  }
-
-  return (
-    
-  
-    <View style={styles.container}>
-    
-    <Text>My name is {name}</Text>
-    <Text>His name is {person.name} and his age is {person.age}</Text>
-    <View style = {styles.buttonContainer}>
-      <Button title = "update state" onPress={clickHandler}/>
-      </View>    
-    </View>
-  );
-}
+import React , {useState} from 'react';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    
     flex: 1,
-    flexDirection: "column",
-    backgroundColor: "#fff",
-    alignItems : "center",
-    justifyContent: "center",
-
-    
+    backgroundColor: '#fff',
+    paddingTop: 40,
+    paddingHorizontal: 20,
+   
   },
-  buttonContainer:{
-    marginTop: 20,
-  }
-  /*
-  header: {
+  item:{
+    marginTop: 24,
+    padding: 30,
     backgroundColor: "pink",
-    padding: 20,
-  },
-  boldText:{
-    fontWeight: "bold",
-  },
-  body:{
-    backgroundColor: "yellow",
-    padding: 20,
-    fontWeight: "bold",
+    fontSize: 24
   }
-  */
- 
+
 
 });
+
+export default function App() {
+ const [people,setPeople] = useState([
+   { name: "shaun", key: "1"},
+   { name: "yoshi", key: "2"},
+   { name: "berat", key: "3"},
+   { name: "shaun2", key: "4"},
+   { name: "yoshi2", key: "5"},
+   { name: "berat2", key: "6"},
+   { name: "shaun3", key: "7"},
+   { name: "yoshi3", key: "8"},
+   { name: "berat3", key: "9"},
+ ]);
+  return( 
+    // map maps on every item in the array. as parameter we do not have to use item. It is automatically set.
+    <View style= {styles.container} > 
+      <ScrollView>
+        {people.map((item) => {
+          return (
+              <View key = {item.key}>
+                <Text style = {styles.item}> {item.name} </Text>
+                </View>
+          )
+        })}
+        </ScrollView>
+    </View>
+    
+  );
+}
+
+
