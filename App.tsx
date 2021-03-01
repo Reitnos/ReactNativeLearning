@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React , {useState} from 'react';
-import { StyleSheet, Text, View, FlatList} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Alert, Platform} from 'react-native';
 import Header from "./components/header";
 import TodoItem from "./components/todoItem";
+import AddTodo from "./components/addTodo";
 
 const styles = StyleSheet.create({
   container: {
@@ -26,6 +27,28 @@ export default function App() {
     {text: "play on the switch", key: "3"},
 
   ]);
+  const submitHandler = (text) => {
+    if(text.length > 3){
+
+        setTodos((prevTodos) =>{
+          return [
+            ...prevTodos,
+            {text: text, key: Math.random().toString()},
+          ];
+        } );
+    }
+    else{
+   
+      if (Platform.OS === 'web') {
+        alert("Todos must be over 3 chars long");
+      } else {
+        
+        Alert.alert("OOPS!","Todos must be over 3 chars long",[
+          {text: "Understood", onPress: () => console.log("alert closed")}
+        ]);
+      }
+    }
+  }
   const pressHandler = (key) => {
     setTodos((prevTodos) => {
       return prevTodos.filter(todo => todo.key != key);
@@ -37,7 +60,7 @@ export default function App() {
     <View style= {styles.container} > 
       <Header/>
       <View style = {styles.content}>
-        {/* to form */}
+        <AddTodo submitHandler = {submitHandler} />
         <View style = {styles.list}>
             <FlatList 
             data = {todos}
